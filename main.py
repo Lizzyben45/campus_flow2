@@ -1,4 +1,5 @@
 from storage import save_tickets, load_tickets
+from ai_service import get_ticket_suggestions
 
 
 def create_ticket(tickets):
@@ -21,14 +22,14 @@ def create_ticket(tickets):
 
     category = category_choices[category_choice]
 
-    title = input("\nEnter ticket title: ").strip() 
+    title = input("\nEnter ticket title: ").strip()
 
     if not title:
         print("Error: Ticket title cannot be empty.")
         return
 
     description = input("Enter ticket description: ").strip()
-    
+
     if not description:
         print("Error: Ticket description cannot be empty.")
         return
@@ -73,6 +74,40 @@ def view_tickets(tickets):
     print("-------------------------")
 
 
+def get_ai_suggestions(tickets):
+    if not tickets:
+        print("\nNo tickets available for AI analysis.")
+        return
+
+    view_tickets(tickets)
+
+    ticket_id = input("\nEnter the ticket ID to analyse: ").strip()
+
+    selected_ticket = None
+
+    for ticket in tickets:
+        if str(ticket["id"]) == ticket_id:
+            selected_ticket = ticket
+            break
+
+    if selected_ticket is None:
+        print("\nTicket ID not found.")
+        return
+
+    print("\nAI is analysing your ticket. Please wait...")
+
+    try:
+        suggestions = get_ticket_suggestions(
+            selected_ticket["description"]
+        )
+
+        print("\n===== AI SUPPORT SUGGESTIONS =====")
+        print(suggestions)
+
+    except (RuntimeError, ValueError) as error:
+        print(f"\nAI service unavailable: {error}")
+
+
 def main():
     try:
         tickets = load_tickets()
@@ -87,7 +122,8 @@ def main():
         print("2. View All Tickets")
         print("3. Save Tickets")
         print("4. Load Tickets")
-        print("5. Exit")
+        print("5. Get AI Suggestions")
+        print("6. Exit")
 
         choice = input("\nSelect an option: ").strip()
 
@@ -115,11 +151,14 @@ def main():
                 print(f"\nError loading tickets: {error}")
 
         elif choice == "5":
+            get_ai_suggestions(tickets)
+
+        elif choice == "6":
             print("\nThank you for using CampusFlow 2!")
             break
 
         else:
-            print("\nInvalid selection. Please choose 1, 2, 3, 4, or 5.")
+            print("\nInvalid selection. Please choose 1, 2, 3, 4, 5, or 6.")
 
 
 if __name__ == "__main__":

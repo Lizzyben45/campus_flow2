@@ -16,5 +16,11 @@
         "category": "Software Issue",
         "title": "screen",
         "description": "screen not displaying"
+    },
+    {
+        "id": 4,
+        "category": "Software Issue",
+        "title": "wifi is down",
+        "description": "internet is not connecting"
     }
 ]
