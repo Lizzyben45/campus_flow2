@@ -1,7 +1,20 @@
 [
     {
         "id": 1,
-        "title": "Login issue",
-        "description": "i cannot log into my account"
+        "category": "Network Issue",
+        "title": "wifi is down",
+        "description": "system cannot connect to network"
+    },
+    {
+        "id": 2,
+        "category": "Hardware Issue",
+        "title": "keyboard",
+        "description": "keyboard is not working"
+    },
+    {
+        "id": 3,
+        "category": "Software Issue",
+        "title": "screen",
+        "description": "screen not displaying"
     }
 ]
